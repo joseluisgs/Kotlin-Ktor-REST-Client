@@ -8,6 +8,6 @@ data class UserUpdateDTO (
     var last_name: String,
     var avatar: String?,
     var email: String?,
-    var id: String,
-    var createdAt: String
+    var id: Int,
+    var updatedAt: String
 )

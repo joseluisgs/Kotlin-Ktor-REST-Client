@@ -11,7 +11,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 
-class ReqresAuthRest(var token: String) {
+class ReqresAuthRESTClient(var token: String) {
     private val logger = KotlinLogging.logger {}
     private val API_URL = "https://reqres.in/api"
 
@@ -33,8 +33,5 @@ class ReqresAuthRest(var token: String) {
         }
     }
 
-    suspend fun getById(id: Int): HttpResponse {
-        logger.info { "Get usuario por ID" }
-        return clientAuth.get("$API_URL/users/$id")
-    }
+
 }

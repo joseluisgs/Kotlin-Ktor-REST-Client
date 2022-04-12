@@ -14,7 +14,6 @@ import io.ktor.client.plugins.auth.providers.*
 import io.ktor.client.utils.EmptyContent.headers
 import models.User
 import mu.KotlinLogging
-import io.ktor.http.*
 
 object ReqresRESTClient {
     private val logger = KotlinLogging.logger {}
@@ -30,24 +29,12 @@ object ReqresRESTClient {
         }
     }
 
-    private var token: String =""
-    private val clientAuth = HttpClient(CIO) {
-        //install(Logging)
-        install(ContentNegotiation) {
-            json(Json {
-                prettyPrint = true
-                isLenient = true
-            })
-        }
-        install(Auth) {
-            bearer {
-                token = "Bearer $token"
-            }
-        }
-    }
-
-    suspend fun getAll(): HttpResponse {
+    suspend fun getAll(page: Int = 0, perPage: Int = 10): HttpResponse {
         logger.info { "Obtener todos los usuarios" }
+        Parameters.build {
+            append("page", page.toString())
+            append("per_page", perPage.toString())
+        }
         return client.get("$API_URL/users")
     }
 
@@ -84,5 +71,15 @@ object ReqresRESTClient {
             contentType(ContentType.Application.Json)
             setBody(login)
         }
+    }
+
+    suspend fun getByIdAuth(id: Int, token: String): HttpResponse {
+        Headers.build {
+            append(HttpHeaders.Accept, "text/html")
+            append(HttpHeaders.Authorization, "Bearer $token")
+            append(HttpHeaders.UserAgent, "ktor client")
+        }
+        logger.info { "Get usuario por ID" }
+        return client.get("$API_URL/users/$id")
     }
 }

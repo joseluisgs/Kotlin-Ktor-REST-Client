@@ -6,7 +6,7 @@ import models.User
 
 // Serializamos en JSON
 @Serializable
-data class UserDTO(
+data class UserGetDTO(
     val data: User,
     val support: Support
 )

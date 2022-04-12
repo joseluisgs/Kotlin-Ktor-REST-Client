@@ -6,7 +6,7 @@ import models.User
 
 
 @Serializable
-data class UserListDTO(
+data class UsersListGetDTO(
     val page: Int,
     val per_page: Int,
     val total: Int,
